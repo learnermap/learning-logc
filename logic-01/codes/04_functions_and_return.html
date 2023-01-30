@@ -1,0 +1,41 @@
+<html>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+<body>
+    <h1>Learning Logic with JS</h1> 
+
+    <script type="text/javascript">
+
+        function breakLine(){
+            document.write("<br>");
+        }
+
+        function circunference(radius){
+            return 2 * Math.PI * radius;
+        }
+
+        function area(radius){
+            return Math.PI * Math.pow(radius, 2);
+        }
+
+        function diameter(radius){
+            return 2 * radius;
+        }
+        
+        let r = parseInt(prompt("Informe o raio do círculo: "));
+        let d = diameter(r);
+        let c = circunference(r);
+        let a = area(r);
+
+        document.write("radius: " + r);
+        breakLine();
+        document.write("diameter: " + d);
+        breakLine();
+        document.write("circunference: " + c);
+        breakLine();
+        document.write("area: " + a);
+        breakLine();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+<body>
+    <h1>Learning Logic with JS</h1>     
+
+    <script type="text/javascript">
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + min;
+        }
+        
+        let attempts = 1;
+        const limit = 3;
+        let number = randBetween(1, 10);
+        let hit = false;        
+        const msgPrompt = `Type a number between 1 - 10. You've ${limit} attempts. Attempt ${attempts}.`;
+        const msgSuccess = "Congrats, you're right. ";
+        const msgError = "Sorry, you're wrong. ";
+        const msgHitFalse = `The number is ${number}.`
+        
+        while(attempts <= limit){
+            let guess = prompt(msgPrompt);
+            let msgResult = `Your guess is ${guess}. The number is ${number}.`;
+            let msgLessThan = `The number is less than ${guess}`;
+            let msgGreaterThan = `The number is greater than ${guess}`;
+            
+            if (guess == number){
+                alert(msgSuccess + msgResult);
+                hit = true;
+                break;
+            } else {
+                if(number < guess){
+                    alert(msgError + msgLessThan);
+                } else {
+                    alert(msgError + msgGreaterThan);
+                }
+            }
+
+            attempts++;
+        }
+
+        if (!hit){
+            alert(msgHitFalse);
+        }
+    </script>
+</body>
+</html>

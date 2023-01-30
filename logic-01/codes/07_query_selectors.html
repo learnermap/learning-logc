@@ -1,0 +1,73 @@
+<html>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+<body>
+    <h1>Learning Logic with JS</h1>
+    <p id="prompt"></p>     
+    <input type="text" id="txtGuess">
+    <button id="btnOK">OK</button>
+    <hr>
+    <div id="messages"></div>    
+
+    <script type="text/javascript">
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + min;
+        }
+ 
+        function game(){
+            if(attempts <= limit && !hit){                
+                let guess = parseInt(input.value);
+                let msgResult = `Your guess is ${guess}. The number is ${number}.`;
+                let msgLessThan = `The number is less than ${guess}`;
+                let msgGreaterThan = `The number is greater than ${guess}`;
+                
+                if (guess == number){
+                    messages.innerHTML += `<p>Attempt ${attempts}: ` +
+                        `${msgSuccess} ${msgResult}</p>`;
+                    hit = true;                    
+                } else {
+                    if(number < guess){
+                        messages.innerHTML += `<p>Attempt ${attempts}: ` +
+                            `${msgError} ${msgLessThan}</p>`;                        
+                    } else {
+                        messages.innerHTML += `<p>Attempt ${attempts}: ` +
+                            `${msgError} ${msgGreaterThan}</p>`;
+                    }
+
+                    attempts++;
+                    input.value = "";
+                    input.focus();
+                }    
+            }
+
+            if (attempts == 4 || hit){
+                messages.innerHTML += msgHitFalse;
+                attempts = 5;
+                hit = false;
+                messages.innerHTML += msgPlayAgain;
+            }    
+        }        
+
+        let attempts = 1;
+        const limit = 3;
+        let number = randBetween(1, 10);
+        let hit = false;                
+        const msgSuccess = "Congrats, you're right. ";
+        const msgError = "Sorry, you're wrong. ";
+        const msgHitFalse = `The number is ${number}.`
+        const msgPlayAgain = `<p style='color: red;'>Press F5 to play again.</p>`;
+
+        let input = document.getElementById("txtGuess");
+        let button = document.getElementById("btnOK");
+        let messages = document.getElementById("messages");
+        let prompt = document.getElementById("prompt");
+        
+        button.onclick = game;
+        prompt.innerHTML = `Type a number between 1 - 10. You have ${limit} attempts.`;
+        input.value = "";
+        input.focus();
+        
+    </script>
+</body>
+</html>

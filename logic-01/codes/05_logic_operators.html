@@ -1,0 +1,26 @@
+<html>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+<body>
+    <h1>Learning Logic with JS</h1>     
+
+    <script type="text/javascript">
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + min;
+        }
+
+        let guess = prompt("Type a number between 1 - 10: ");
+        let number = randBetween(1, 10);
+        let msgSuccess = "Congrats, you're right. ";
+        let msgError = "Sorry, you're wrong. ";
+        let msgResult = "Your guess is " + guess + ". The number is " + number + ".";
+
+        if (guess == number){
+            alert(msgSuccess + msgResult);
+        } else {
+            alert(msgError + msgResult);
+        }
+    </script>
+</body>
+</html>

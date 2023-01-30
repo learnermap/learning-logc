@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <style>
+            .number {
+                width: 40px;
+            }
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            td {
+                padding: 5px 5px;
+            }
+            button {
+                width: 100%;
+            }
+        </style>
+    </head>
+<body>
+    <h1>Learning Logic with JS</h1>
+    <p id="prompt"></p>
+    <table>
+        <tr>
+            <th>N. 1</th><th>N. 2</th><th>N. 3</th><th>N. 4</th><th>N. 5</th><th>N. 6</th>
+        </tr>
+        <tr>
+            <td><input type="text" id="winNum0" class="number"></td>
+            <td><input type="text" id="winNum1" class="number"></td>
+            <td><input type="text" id="winNum2" class="number"></td>
+            <td><input type="text" id="winNum3" class="number"></td>
+            <td><input type="text" id="winNum4" class="number"></td>
+            <td><input type="text" id="winNum5" class="number"></td>
+        </tr>
+        <tr>
+            <td colspan="6"><button id="btnOK">OK</button></td>
+        </tr>
+    </table>
+    <hr>
+    <div id="messages"></div>    
+
+    <script type="text/javascript">
+
+        function compareFn(a, b){
+                return a - b;
+        }
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + min;
+        }
+
+        function get_win_numbers(){
+            let numbers = [];            
+            for (let i = 0; i < 6;){
+                let number = randBetween(1,60);
+                if (numbers.indexOf(number) == -1){
+                    numbers.push(number);
+                    i++;
+                }
+            }
+
+            return numbers.sort(compareFn);
+        }
+
+        function get_bet_numbers(){
+            let bet_numbers = [];
+            for(let i = 0; i < 6; i++){
+                bet_numbers.push(
+                    parseInt(document.getElementById(`winNum${i}`).value)
+                );                
+            }
+
+            return bet_numbers.sort(compareFn);
+        }
+
+        function conference(){
+            let win_numbers = get_win_numbers();
+            let bet_numbers = get_bet_numbers();
+            let hits = 0;
+
+            for(let n = 0; n < 6; n++){
+                if (win_numbers.indexOf(bet_numbers[n]) != -1){
+                    hits++;
+                }
+            }
+
+            show_messages(bet_numbers, win_numbers, hits);
+        }
+        
+        function show_messages(bet_numbers, win_numbers, hits){
+            let messages = document.getElementById("messages");
+            messages.innerHTML = `<p>Bet Numbers: ${bet_numbers}</p>`;
+            messages.innerHTML += `<p>Win Numbers: ${win_numbers}</p>`;
+            clear_inputs();
+            
+            messages.innerHTML += `<p>Your score ${hits} hit(s)</p>`;
+        }        
+
+        function clear_inputs(){
+            for(let i = 0; i < 6; i++){
+                (document.getElementById(`winNum${i}`).value) = "";
+            }            
+        }
+
+        let button = document.getElementById("btnOK");
+        let prompt = document.getElementById("prompt");
+        
+        button.onclick = conference;
+        prompt.innerHTML = `Enter below 6 numbers (1-60) for your bet.`;
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+<body>
+    <h1>Learning Logic with JS</h1> 
+    <p>
+        Ways to declare a variable.
+        <ul>
+            <li>var</li>
+            <li>let</li>
+            <li>const</li>
+        </ul>
+    </p>
+    <p>
+        Scope determine the accessibility of variables
+    </p>
+    <p>
+        Below, some examples to use the block scope, function scope and global 
+        scope
+    </p>
+    <script type="text/javascript">
+
+        function breakLine(){
+            document.write("<br>");
+        }
+
+        const pi = Math.PI;
+        let radius = 8;
+        let diameter = 2 * radius;
+        let circunference = 2 * pi * radius;
+        let area = pi * (radius * radius);
+
+        document.write("diameter: " + diameter);
+        breakLine();
+        document.write("radius: " + radius);
+        breakLine();
+        document.write("circunference: " + circunference);
+        breakLine();
+        document.write("area: " + area);
+        breakLine();
+
+        {
+            let x = 1;
+            var z = 1; // global scope
+        }
+
+        // here, x is outside of scope.
+        // document.write(x);
+        document.write("Accessing the var with global scope: " + z);
+
+    </script>
+</body>
+</html>
