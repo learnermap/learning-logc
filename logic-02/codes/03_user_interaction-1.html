@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <title>JS</title>
+        <style>
+        </style>
+    </head>
+<body>    
+    <button id="flower">flower</button>
+    <button id="text">text</button>
+    <button id="series">series</button>
+    <button id="triangleRec">triangle</button>
+    <hr>
+    <canvas id="board" width="600" height="600"></canvas>
+    <script type="text/javascript">
+        
+        function draw_bg(){
+            ctx.fillStyle = 'lightgrey';
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.fillRect(0, 0, 400, 400);
+        }
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + 1;
+        }          
+
+        function get_colors(quantity){
+            let colors = [];
+
+            for(let i = 0; i < quantity;){
+                let r = randBetween(0, 255);
+                let g = randBetween(0, 255);
+                let b = randBetween(0, 255);
+                let rgb = `rgb(${r}, ${g}, ${b})`
+
+                if (colors.indexOf(rgb) == -1){
+                    colors.push(rgb);
+                    i++;
+                }
+            }
+
+            return colors;
+        }        
+
+        let scr = document.getElementById('board');
+        let ctx = scr.getContext('2d');
+        let radio = 10;
+        let draw = false;
+        draw_bg();
+
+
+        scr.onmousemove = function (evt){
+            let x = evt.pageX - scr.offsetLeft;
+            let y = evt.pageY - scr.offsetTop;
+            radio += evt.shiftKey ? 10 : 0;            
+            
+            if (draw){
+                ctx.fillStyle = get_colors(1)[0];
+                ctx.beginPath();
+                ctx.arc(x, y, radio, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        };
+
+        scr.onmousedown = function (){
+            draw = true;
+        }
+
+        scr.onmouseup = function (){
+            draw = false;
+        }
+
+    </script>
+</body>
+</html>

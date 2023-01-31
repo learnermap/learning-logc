@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <title>JS</title>
+        <style>
+            *, body{
+                font-family: 'Arial', sans-serif;
+            }
+            .messages {
+                font-weight: bold;
+                font-size: 2rem;
+                color: red;
+            }
+        </style>
+    </head>
+<body>    
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <button id="clear">clear</button>
+    <hr>
+    <canvas id="board" width="600" height="600"></canvas>
+    <div id="messages"></div>
+    <script type="text/javascript">
+        
+        function draw_bg(){
+            ctx.fillStyle = 'lightgrey';
+            ctx.clearRect(0, 0, 600, 400);
+            ctx.fillRect(0, 0, 600, 400);
+        }  
+        
+       
+        function draw_circle(x, y, radio, color){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, radio, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function get_colors(quantity){
+            let colors = [];
+
+            for(let i = 0; i < quantity;){
+                let r = randBetween(0, 255);
+                let g = randBetween(0, 255);
+                let b = randBetween(0, 255);
+                let rgb = `rgb(${r}, ${g}, ${b})`
+
+                if (colors.indexOf(rgb) == -1){
+                    colors.push(rgb);
+                    i++;
+                }
+            }
+
+            return colors;
+        }  
+
+        function move(){
+
+            draw_bg();
+            draw_circle(x,50,10,'green');
+            x += direction;
+            console.log(x);
+
+            
+            if (x == 580 && direction == 1){
+                direction = -1;                
+            } 
+
+            if (x == 20 && direction == -1){
+                direction = 1;
+            } 
+        }
+
+        function start(){
+            intervalID = setInterval(move, 5);
+        }
+
+        function stop(){
+            clearInterval(intervalID);
+        }
+
+        function restart(){
+            x = 20;
+            direction = 1;
+            draw_bg();
+            draw_circle(x,50,10,'green');
+        }
+
+        let scr = document.getElementById('board');
+        let messages = document.getElementById('messages');
+        let ctx = scr.getContext('2d');  
+        let x = 20;
+        let direction = 1;
+        var intervalID;
+        
+        document.getElementById('start').addEventListener('click', start);
+        document.getElementById('stop').addEventListener('click', stop);
+        document.getElementById('clear').addEventListener('click', restart);        
+        draw_bg();
+        draw_circle(x,50,10,'green');
+    </script>
+</body>
+</html>

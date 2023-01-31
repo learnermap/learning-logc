@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <title>JS</title>
+        <style>
+            *, body{
+                font-family: 'Arial', sans-serif;
+            }
+            .messages {
+                font-weight: bold;
+                font-size: 2rem;
+                color: red;
+            }
+        </style>
+    </head>
+<body>    
+    <h1>Score: <a id="score">0</a></h1>
+    <canvas id="board" width="600" height="600"></canvas>
+    <div id="messages"></div>
+    <script type="text/javascript">
+        
+        function draw_bg(){
+            ctx.fillStyle = 'white';
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.fillRect(0, 0, 400, 400);
+        }  
+        
+        function draw_circle(x, y, radio, color){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, radio, 0, 2 * Math.PI);
+            ctx.fill();
+        }        
+        
+        function draw_target(){
+            draw_circle(200, 200, 200, 'lightgrey');
+            draw_circle(200, 200, 160, 'darkslategray');
+            draw_circle(200, 200, 120, 'deepskyblue');
+            draw_circle(200, 200, 80, 'crimson');
+            draw_circle(200, 200, 40, 'gold');
+        }
+
+        function get_score(color){
+            switch(color){
+                case '2552150': return 100; break;
+                case '2202060': return 80; break;
+                case '0191255': return 60; break;
+                case '477979': return 40; break;
+                case '211211211': return 20; break;
+                default: return 0;
+            }
+        }
+
+        function hit (evt){
+            let x = evt.pageX - scr.offsetLeft;
+            let y = evt.pageY - scr.offsetTop;
+            let color = String(ctx.getImageData(x, y, 1, 1).data[0]) +
+                String(ctx.getImageData(x, y, 1, 1).data[1]) +
+                String(ctx.getImageData(x, y, 1, 1).data[2]);
+            
+            if (hits < 3){
+                score += parseInt(get_score(color));
+                console.log(score);
+                score_elemet.innerHTML = score;
+                draw_hit(x, y, 5, 'white');
+                hits++;
+            } 
+            if (hits >= 3){
+                messages.innerHTML = '<p class="messages">Press F5 to restart!</p>';
+            }
+        }
+
+        function draw_hit(x, y, radio, color){
+            draw_circle(x, y, radio, color);
+            
+        }
+
+        let scr = document.getElementById('board');
+        let score_elemet = document.getElementById('score');
+        let messages = document.getElementById('messages');
+        let ctx = scr.getContext('2d');  
+        let hits = 0;
+        let score = 0;
+
+        draw_bg();
+        draw_target();
+
+        scr.onclick = hit;
+    </script>
+</body>
+</html>

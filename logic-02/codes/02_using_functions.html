@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <title>JS</title>
+        <style>
+        </style>
+    </head>
+<body>    
+    <button id="flower">flower</button>
+    <button id="text">text</button>
+    <button id="series">series</button>
+    <button id="triangleRec">triangle</button>
+    <hr>
+    <canvas id="board" width="600" height="600"></canvas>
+    <script type="text/javascript">
+        
+        function draw_bg(){
+            ctx.fillStyle = 'lightgrey';
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.fillRect(0, 0, 400, 400);
+        }
+
+        function draw_circle(x, y, radio, color){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, radio, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function draw_flower(){
+            draw_bg(); 
+
+            let x = 200;
+            let y = 200;
+            let radio = 20;
+
+            draw_circle(x, y, radio, 'red');
+            draw_circle(x, y - (radio * 2), radio, 'green');
+            draw_circle(x, y + (radio * 2), radio, 'blue');
+            draw_circle(x - (radio * 2), y, radio, 'yellow');
+            draw_circle(x + (radio * 2), y, radio, 'magenta');
+        }
+
+        function write_text(){
+            draw_bg(); 
+
+            ctx.fillStyle = 'black';
+            ctx.font = 'bold 40px sans-serif';
+            ctx.fillText('Hello World!', 100, 100, 200);
+
+        }
+
+        function compareFn(a, b){
+            return b - a;
+        }
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + 1;
+        }   
+
+        function get_series(){
+            let total = 0;
+            let series = [];
+
+            while(total < 100){
+                let number = randBetween(1, 100 - total);
+                total += number;
+                series.push(number * 3.5);
+            }
+
+            return series.sort(compareFn);
+        }
+
+        function get_colors(quantity){
+            let colors = [];
+
+            for(let i = 0; i < quantity;){
+                let r = randBetween(0, 255);
+                let g = randBetween(0, 255);
+                let b = randBetween(0, 255);
+                let rgb = `rgb(${r}, ${g}, ${b})`
+
+                if (colors.indexOf(rgb) == -1){
+                    colors.push(rgb);
+                    i++;
+                }
+            }
+
+            return colors;
+        }
+
+        function draw_block(x, y, width, height, color){
+            //let series = get_series();
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            ctx.fillStroke = 'black';
+            ctx.strokeRect(x, y, width, height);
+        }
+
+        function draw_series(){                        
+            let series = get_series();
+            let colors = get_colors(series.length);
+            let startIn = 20;
+            let x = 150;
+            let y = 20;
+            let width = 100;
+            
+            draw_bg();
+
+            for(let i = 0; i < series.length; i++){
+                draw_block(x, y, width, series[i], colors[i]);                
+                y += series[i];
+            }
+        }
+
+        function draw_triangle(width, height){
+            draw_bg();
+
+            let startOut = 50;
+            let startIn = 100;
+
+            ctx.fillStyle = 'green';
+            ctx.beginPath();            
+            ctx.moveTo(startOut, startOut);
+            ctx.lineTo(startOut, startOut + width);
+            ctx.lineTo(startOut + height, startOut + width);
+            ctx.fill();         
+        }
+
+        function draw_triangle_rec(){
+            draw_triangle(250, 300);
+        }
+
+        let flower = document.getElementById("flower");
+        let text = document.getElementById("text");
+        let series = document.getElementById("series");
+        let triangle_rec = document.getElementById("triangleRec");
+
+        let scr = document.getElementById('board');
+        let ctx = scr.getContext('2d');
+        
+        flower.onclick = draw_flower;
+        text.onclick = write_text;
+        series.onclick = draw_series;
+        triangle_rec.onclick = draw_triangle_rec;
+
+    </script>
+</body>
+</html>

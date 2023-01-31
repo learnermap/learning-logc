@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <title>JS</title>
+        <style>
+            *, body{
+                font-family: 'Arial', sans-serif;
+            }
+            .messages {
+                font-weight: bold;
+                font-size: 2rem;
+                color: red;
+            }
+        </style>
+    </head>
+<body>    
+    <canvas id="board" width="800" height="600"></canvas>
+    <hr>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <button id="clear">clear</button>
+    <hr>
+    <h1>Score: <a id="score">0</a></h1>
+    <hr>
+    <div id="messages"></div>
+    <script type="text/javascript">
+        
+        function draw_bg(){
+            ctx.fillStyle = 'white';
+            ctx.clearRect(0, 0, 800, 600);
+            ctx.fillRect(0, 0, 800, .00);
+        }        
+       
+        function draw_circle(x, y, radio, color){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, radio, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function randBetween(min, max){
+            return Math.floor(Math.random() * max) + min;
+        } 
+        
+        function get_score(color){
+            switch(color){
+                case '2552150': return 100; break;
+                case '2202060': return 80; break;
+                case '0191255': return 60; break;
+                case '477979': return 40; break;
+                case '211211211': return 20; break;
+                default: return 0;
+            }
+        }
+
+        function hit (evt){
+            let x = evt.pageX - scr.offsetLeft;
+            let y = evt.pageY - scr.offsetTop;
+            let color = String(ctx.getImageData(x, y, 1, 1).data[0]) +
+                String(ctx.getImageData(x, y, 1, 1).data[1]) +
+                String(ctx.getImageData(x, y, 1, 1).data[2]);
+            
+            if (hits < 3){
+                score += parseInt(get_score(color));
+                console.log(score);
+                score_elemet.innerHTML = score;
+                draw_hit(x, y, 5, 'white');
+                hits++;
+            } 
+            if (hits >= 3){
+                stop();
+                messages.innerHTML = '<p class="messages">Press F5 to restart!</p>';
+            }
+        }
+
+        function draw_hit(x, y, radio, color){
+            draw_circle(x, y, radio, color);
+            
+        }        
+
+        function draw_target(){
+            draw_bg();
+
+            let radio = 10;
+            let x = randBetween(30, 770);
+            let y = randBetween(30, 570);
+
+            draw_circle(x, y, radio + 40, 'lightgrey');
+            draw_circle(x, y, radio + 30, 'darkslategray');
+            draw_circle(x, y, radio + 20, 'deepskyblue');
+            draw_circle(x, y, radio + 10, 'crimson');
+            draw_circle(x, y, radio, 'gold');
+            console.log(x, y);
+        }
+
+        function get_colors(quantity){
+            let colors = [];
+
+            for(let i = 0; i < quantity;){
+                let r = randBetween(0, 255);
+                let g = randBetween(0, 255);
+                let b = randBetween(0, 255);
+                let rgb = `rgb(${r}, ${g}, ${b})`
+
+                if (colors.indexOf(rgb) == -1){
+                    colors.push(rgb);
+                    i++;
+                }
+            }
+
+            return colors;
+        }  
+
+        function start(){
+            intervalID = setInterval(draw_target, 800);
+        }
+
+        function stop(){
+            clearInterval(intervalID);
+        }
+
+        function clear(){
+            clearInterval(intervalID);
+            draw_target();
+        }
+
+        let scr = document.getElementById('board');
+        let messages = document.getElementById('messages');
+        let score_elemet = document.getElementById('score');
+        let ctx = scr.getContext('2d');  
+        let x = 20;
+        let direction = 1;
+        let intervalID;
+        let hits = 0;
+        let score = 0;
+        
+        document.getElementById('start').addEventListener('click', start);
+        document.getElementById('stop').addEventListener('click', stop);
+        document.getElementById('clear').addEventListener('click', clear);
+        
+        draw_bg();        
+        draw_target();
+        scr.onclick = hit;
+    </script>
+</body>
+</html>

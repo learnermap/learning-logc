@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:,">
+        <style>
+        </style>
+    </head>
+<body>    
+    <button id="chess">chess</button>
+    <button id="creeperPath">creeper path</button>
+    <button id="creeperRect">creeper rect</button>
+    <button id="brFlag">brazil flag</button>
+    <hr>
+    <canvas width="600" height="600"></canvas>
+    <script type="text/javascript">
+        
+        function chess_board(){
+            ctx.fillStyle = 'lightgrey';
+            ctx.clearRect(0, 0, 600, 600);            
+            ctx.fillRect(0, 0, 400, 400);
+            
+            // rect green configs
+            let x = 40;
+            let y = 0;
+            let width = 40;
+            let height = 40;
+            ctx.fillStyle = 'blue';    
+            
+            for(let i = 0; i < 10; i++){
+                
+                x = (i % 2 == 0) ? 40 : 0;
+                
+                for(let j = 0; j < 5; j++){
+                    ctx.fillRect(x, y, width, height);
+                    x += 80;
+                }
+                
+                y += 40;
+            }
+        }
+        
+        function br_flag(){
+            // bg green
+            ctx.fillStyle = 'green';
+            ctx.clearRect(0, 0, 600, 400);            
+            ctx.fillRect(0, 0, 600, 400);
+            
+            // shape yellow
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+            ctx.moveTo(300, 0);
+            ctx.lineTo(0, 200);
+            ctx.lineTo(300, 400);
+            ctx.lineTo(600, 200);
+            ctx.fill();
+
+            // blue cicle
+            ctx.fillStyle = 'blue';
+            ctx.beginPath();
+            ctx.arc(300, 200, 150, 0, 2 * 3.14);
+            ctx.fill();
+
+        }
+
+        function creeper_rect(){
+            // bg green
+            ctx.fillStyle = 'green';
+            ctx.clearRect(0, 0, 600, 400);            
+            ctx.fillRect(0, 0, 400, 400); 
+            
+            ctx.fillStyle = 'black';
+
+            ctx.fillRect(50,50, 100,100);
+            ctx.fillRect(250,50, 100,100);
+            ctx.fillRect(150,150, 100,150);
+            ctx.fillRect(100,200, 50,150);
+            ctx.fillRect(250,200, 50,150);
+        }
+
+        function creeper_path(){
+            ctx.fillStyle = 'lightgrey';
+            ctx.clearRect(0, 0, 600, 400);
+            ctx.fillRect(0, 0, 400, 400);
+            
+            ctx.fillStyle = 'black'; 
+
+            ctx.beginPath();
+            //          x    y
+            ctx.moveTo( 50,  50);
+            ctx.lineTo( 50, 150);
+            ctx.lineTo(150, 150);
+            ctx.lineTo(150, 200);
+            ctx.lineTo(100, 200);
+            ctx.lineTo(100, 350);
+            ctx.lineTo(150, 350);
+            ctx.lineTo(150, 300);
+            ctx.lineTo(250, 300);
+            ctx.lineTo(250, 350);
+            ctx.lineTo(300, 350);
+            ctx.lineTo(300, 200);
+            ctx.lineTo(250, 200);
+            ctx.lineTo(250, 150);
+            ctx.lineTo(350, 150);
+            ctx.lineTo(350,  50);
+            ctx.lineTo(250,  50);
+            ctx.lineTo(250, 150);
+            ctx.lineTo(150, 150);
+            ctx.lineTo(150,  50);
+            ctx.fill();
+        }
+
+        let chess = document.getElementById("chess");
+        let creeperPath = document.getElementById("creeperPath");
+        let creeperRect = document.getElementById("creeperRect");
+        let brFlag = document.getElementById("brFlag");
+
+        let scr = document.querySelector('canvas');
+        let ctx = scr.getContext('2d');
+        
+        chess.onclick = chess_board;
+        creeperPath.onclick = creeper_path;
+        creeperRect.onclick = creeper_rect;
+        brFlag.onclick = br_flag;
+
+    </script>
+</body>
+</html>
